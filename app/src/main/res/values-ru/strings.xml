@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода</string>
+
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+
+    <string name="about_app">О приложении</string>
+    <string name="settings">Настройки</string>
+    <string name="weather">Погода</string>
+    <string name="homework_1">Домашняя работа №1</string>
+</resources>
