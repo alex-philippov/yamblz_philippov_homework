@@ -9,9 +9,36 @@
     <string name="weather">Weather</string>
     <string name="homework_1">Homework №1</string>
     <string name="main">Main</string>
+    <string name="update_interval">Update interval</string>
 
+    <string name="minutes_10">10 minutes</string>
+    <string name="minutes_30">30 minutes</string>
+    <string name="hour_1">1 hour</string>
+    <string name="hour_3">3 hour</string>
+    <string name="hour_6">6 hour</string>
+    <string name="hour_12">12 hour</string>
+    <string name="hour_24">24 hour</string>
 
-    <string name="pref_key_language" translatable="false">pref_key_language</string>
-
+    <string name="pref_key_interval" translatable="false">pref_key_interval</string>
+    <string-array name="intervals">
+        <item>polminuty</item>
+        <item>@string/minutes_10</item>
+        <item>@string/minutes_30</item>
+        <item>@string/hour_1</item>
+        <item>@string/hour_3</item>
+        <item>@string/hour_6</item>
+        <item>@string/hour_12</item>
+        <item>@string/hour_24</item>
+    </string-array>
+    <string-array name="intervals_values">
+        <item>30000</item>
+        <item>600000</item>
+        <item>1800000</item>
+        <item>3600000</item>
+        <item>10800000</item>
+        <item>21600000</item>
+        <item>43200000</item>
+        <item>86400000</item>
+    </string-array>
 
 </resources>

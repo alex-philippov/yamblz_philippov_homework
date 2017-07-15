@@ -2,6 +2,9 @@ package com.example.weather;
 
 import android.app.Application;
 
+import com.evernote.android.job.JobManager;
+import com.example.weather.presentation.android_job.WeatherJob;
+import com.example.weather.presentation.android_job.WeatherJobCreator;
 import com.example.weather.presentation.di.AppComponent;
 import com.example.weather.presentation.di.AppModule;
 import com.example.weather.presentation.di.DaggerAppComponent;
@@ -11,8 +14,6 @@ import com.example.weather.presentation.di.main_activity_component.aboutapp_comp
 import com.example.weather.presentation.di.main_activity_component.aboutapp_component.AboutAppModule;
 import com.example.weather.presentation.di.main_activity_component.home_component.HomeComponent;
 import com.example.weather.presentation.di.main_activity_component.home_component.HomeModule;
-import com.example.weather.presentation.di.main_activity_component.settings_component.SettingsComponent;
-import com.example.weather.presentation.di.main_activity_component.settings_component.SettingsModule;
 
 public class WeatherApp extends Application {
 
@@ -25,13 +26,13 @@ public class WeatherApp extends Application {
     private AppComponent appComponent;
     private MainActivityComponent mainActivityComponent;
     private HomeComponent homeComponent;
-    private SettingsComponent settingsComponent;
     private AboutAppComponent aboutAppComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        JobManager.create(this).addJobCreator(new WeatherJobCreator());
+        WeatherJob.scheduleJob();
         instance = this;
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(instance))
@@ -58,16 +59,6 @@ public class WeatherApp extends Application {
 
     public void clearHomeComponent() {
         homeComponent = null;
-    }
-
-    public SettingsComponent plusSettingsComponent() {
-        if (settingsComponent == null) {
-            settingsComponent = mainActivityComponent.plusSettingsComponent(new SettingsModule());
-        }
-        return settingsComponent;
-    }
-    public void clearSettingsComponent() {
-        settingsComponent = null;
     }
 
     public AboutAppComponent plusAboutAppComponent() {
