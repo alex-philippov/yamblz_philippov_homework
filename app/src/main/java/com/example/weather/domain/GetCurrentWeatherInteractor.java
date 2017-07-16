@@ -22,8 +22,6 @@ public class GetCurrentWeatherInteractor {
     public void execute(String city, Consumer<? super DetailedWeather> onSuccess,
                         Consumer<? super Throwable> onError) {
         weatherProvider.getWeather(city, WeatherApi.API_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onSuccess, onError);
     }
 }

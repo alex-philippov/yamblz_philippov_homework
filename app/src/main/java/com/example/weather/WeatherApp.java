@@ -16,6 +16,7 @@ import com.example.weather.presentation.di.main_activity_component.home_componen
 import com.example.weather.presentation.di.main_activity_component.home_component.HomeModule;
 
 public class WeatherApp extends Application {
+    public static final String PREF_NAME = "weather_prefs";
 
     protected static WeatherApp instance;
 

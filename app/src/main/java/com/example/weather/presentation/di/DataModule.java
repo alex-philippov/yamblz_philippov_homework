@@ -1,5 +1,9 @@
 package com.example.weather.presentation.di;
 
+import android.content.Context;
+
+import com.example.weather.cache.CacheManager;
+import com.example.weather.cache.PreferenceCacheManager;
 import com.example.weather.data.OpenWeatherProvider;
 import com.example.weather.data.WeatherApi;
 import com.example.weather.data.WeatherProvider;
@@ -16,9 +20,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DataModule {
 
     @Provides
+    CacheManager provideCacheManager(Context context) {
+        return new PreferenceCacheManager(context);
+    }
+
+    @Provides
     @Singleton
-    WeatherProvider provideWeatherProvider(WeatherApi weatherApi) {
-        return new OpenWeatherProvider(weatherApi);
+    WeatherProvider provideWeatherProvider(WeatherApi weatherApi, CacheManager cacheManager) {
+        return new OpenWeatherProvider(weatherApi, cacheManager);
     }
 
     @Provides

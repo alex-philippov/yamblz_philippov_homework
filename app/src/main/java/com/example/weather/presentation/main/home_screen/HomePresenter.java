@@ -27,7 +27,7 @@ public class HomePresenter extends BaseMainPresenter<HomeView> {
     public void onAttach() {
         Log.i(TAG, "onAttach: ");
         getCurrentWeatherInteractor.execute("Moscow", detailedWeather -> {
-            Log.i(TAG, "onAttach: " + detailedWeather.getName());
+            getView().showWeather(HomeViewModel.create(detailedWeather));
         }, throwable -> {
             Log.i(TAG, "onAttach: " + throwable.toString());
         });
