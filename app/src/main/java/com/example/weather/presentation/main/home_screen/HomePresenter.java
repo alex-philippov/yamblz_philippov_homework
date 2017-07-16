@@ -3,6 +3,7 @@ package com.example.weather.presentation.main.home_screen;
 
 import android.util.Log;
 
+import com.example.weather.R;
 import com.example.weather.WeatherApp;
 import com.example.weather.domain.GetCurrentWeatherInteractor;
 import com.example.weather.domain.entities.DetailedWeather;
@@ -25,10 +26,20 @@ public class HomePresenter extends BaseMainPresenter<HomeView> {
 
     @Override
     public void onAttach() {
-        Log.i(TAG, "onAttach: ");
+        getWeather();
+    }
+
+    public void refreshweather() {
+        getWeather();
+    }
+
+    private void getWeather() {
         getCurrentWeatherInteractor.execute("Moscow", detailedWeather -> {
             getView().showWeather(HomeViewModel.create(detailedWeather));
+            getView().onGetWeather();
         }, throwable -> {
+            getView().showError(R.string.error);
+            getView().onGetWeather();
             Log.i(TAG, "onAttach: " + throwable.toString());
         });
     }

@@ -3,20 +3,31 @@ package com.example.weather.presentation.main.home_screen;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.TextViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.weather.R;
 import com.example.weather.WeatherApp;
 import com.example.weather.presentation.common.BasePresenter;
 import com.example.weather.presentation.main.common.BaseMainFragment;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 public class HomeFragment extends BaseMainFragment implements HomeView {
     public static final String TAG = "tag_home_fragment";
+    private TextView tvTemperature;
+    private TextView tvCity;
+    private TextView tvWeather;
+    private TextView tvWind;
+    private ImageView ivIcon;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject
     HomePresenter homePresenter;
@@ -28,13 +39,26 @@ public class HomeFragment extends BaseMainFragment implements HomeView {
     }
 
     @Override
-    public void showLoad() {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tvCity = view.findViewById(R.id.tv_city);
+        tvTemperature = view.findViewById(R.id.tv_temperature);
+        tvWeather = view.findViewById(R.id.tv_weather);
+        tvWind = view.findViewById(R.id.tv_wind);
+        ivIcon = view.findViewById(R.id.iv_icon);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setOnRefreshListener(() ->
+                ((HomePresenter)getPresenter()).refreshweather());
+    }
 
+    @Override
+    public void showLoad() {
+        //TODO
     }
 
     @Override
     public void hideLoad() {
-
+        //TODO
     }
 
     @Override
@@ -58,6 +82,16 @@ public class HomeFragment extends BaseMainFragment implements HomeView {
 
     @Override
     public void showWeather(HomeViewModel homeViewModel) {
+        tvCity.setText(homeViewModel.getCity());
+        tvTemperature.setText(homeViewModel.getTemperature());
+        tvWeather.setText(homeViewModel.getMain());
+        tvWind.setText(homeViewModel.getWind());
+        Picasso.with(getContext()).load(homeViewModel.getIconId()).into(ivIcon);
         Log.i(TAG, "showWeather: " + homeViewModel.toString());
+    }
+
+    @Override
+    public void onGetWeather() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

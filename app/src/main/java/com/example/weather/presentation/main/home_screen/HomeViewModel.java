@@ -1,6 +1,7 @@
 package com.example.weather.presentation.main.home_screen;
 
 
+import com.example.weather.Utils.TemperatureConverter;
 import com.example.weather.domain.entities.DetailedWeather;
 
 public class HomeViewModel {
@@ -15,11 +16,12 @@ public class HomeViewModel {
     }
 
     private HomeViewModel(Double temperature, Double wind, String main, Integer pressure, String iconId, String city) {
-        this.temperature = String.valueOf(temperature);
-        this.wind = String.valueOf(wind);
+        this.temperature =  (TemperatureConverter.kelvinToCelsius(temperature) > 0 ? "+" : "") +
+            String.valueOf(TemperatureConverter.kelvinToCelsius(temperature)) + "°";
+        this.wind = "Wind " + String.valueOf(wind) + " m/s";
         this.main = main;
         this.pressure = String.valueOf(pressure);
-        this.iconId = iconId;
+        this.iconId = "http://openweathermap.org/img/w/" + iconId + ".png";
         this.city = city;
     }
 
