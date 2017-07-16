@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
+import com.example.weather.WeatherApp;
 
 public class WeatherJob extends Job {
     public static final String TAG = "job_weather_tag";

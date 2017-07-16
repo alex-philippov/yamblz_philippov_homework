@@ -39,6 +39,10 @@ public class WeatherApp extends Application {
                 .build();
     }
 
+    public AppComponent getAppComponent() {
+        return appComponent;
+    }
+
     public MainActivityComponent plusMainActivityComponent() {
         if (mainActivityComponent == null) {
             mainActivityComponent = appComponent.plusMainActivityComponent(new WeatherModule());
