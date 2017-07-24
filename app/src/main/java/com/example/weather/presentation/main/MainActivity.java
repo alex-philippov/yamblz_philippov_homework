@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity
         if (preferencesManager.getFirstTimeUser()) {
             long interval = Long.valueOf(preferencesManager.getCurrentUpdateInterval());
             WeatherJob.scheduleJob(interval);
-            preferencesManager.setFirstTimeUser(true);
+            preferencesManager.setFirstTimeUser(false);
         }
     }
 }

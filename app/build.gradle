@@ -52,10 +52,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     //Dagger
     implementation "com.google.dagger:dagger:$dagger"
-    implementation "com.google.dagger:dagger-android:$dagger"
-    implementation "com.google.dagger:dagger-android-support:$dagger"
-    implementation "com.google.dagger:dagger-compiler:$dagger"
-    implementation "com.google.dagger:dagger-android-processor:$dagger"
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     //ButterKnife
     implementation "com.jakewharton:butterknife:$butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife"
@@ -66,10 +63,10 @@ dependencies {
     //Gson
     implementation "com.google.code.gson:gson:$gson"
     //Material Preferences
-    compile "com.yarolegovich:mp:$materialprefs"
+    implementation "com.yarolegovich:mp:$materialprefs"
 
-    testImplementation "junit:junit:$rootProject.junit"
-    androidTestImplementation("com.android.support.test.espresso:espresso-core:$rootProject.espresso", {
+    testImplementation "junit:junit:$junit"
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
