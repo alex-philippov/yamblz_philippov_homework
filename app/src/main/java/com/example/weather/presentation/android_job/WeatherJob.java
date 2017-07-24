@@ -1,19 +1,14 @@
 package com.example.weather.presentation.android_job;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
-import com.example.weather.WeatherApp;
 import com.example.weather.domain.GetCurrentWeatherInteractor;
-import com.example.weather.domain.entities.DetailedWeather;
-import com.example.weather.presentation.PreferenceManager;
+import com.example.weather.presentation.PreferencesManager;
 
 import javax.inject.Inject;
-
-import io.reactivex.functions.Consumer;
 
 public class WeatherJob extends Job {
     public static final String TAG = "job_weather_tag";
@@ -38,7 +33,7 @@ public class WeatherJob extends Job {
 
         new JobRequest.Builder(WeatherJob.TAG)
                 .setPersisted(true)
-                .setPeriodic(PreferenceManager.pereodic)
+                .setPeriodic(PreferencesManager.pereodic)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
                 .schedule();

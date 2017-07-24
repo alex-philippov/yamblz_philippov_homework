@@ -9,7 +9,6 @@
     <string name="weather">Weather</string>
     <string name="homework_1">Homework №1</string>
     <string name="main">Main</string>
-    <string name="update_interval">Update interval</string>
     <string name="error">Error</string>
 
     <string name="minutes_15">15 minutes</string>
@@ -19,7 +18,10 @@
     <string name="hour_6">6 hour</string>
     <string name="hour_12">12 hour</string>
     <string name="hour_24">24 hour</string>
-
+    
+    <!--Settings strings -->
+    <string name="settings_update_switch">Background update</string>
+    <string name="settings_update_interval">Update interval</string>
 
     <string name="pref_key_interval" translatable="false">pref_key_interval</string>
     <string-array name="intervals">
