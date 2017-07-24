@@ -8,13 +8,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.weather.R;
 import com.example.weather.WeatherApp;
+import com.example.weather.presentation.PreferencesManager;
+import com.example.weather.presentation.android_job.WeatherJob;
 import com.example.weather.presentation.common.BaseActivity;
-import com.example.weather.presentation.common.BasePresenter;
 import com.example.weather.presentation.main.aboutapp_screen.AboutAppFragment;
 import com.example.weather.presentation.main.home_screen.HomeFragment;
 import com.example.weather.presentation.main.settings_screen.SettingsFragment;
@@ -26,6 +26,9 @@ public class MainActivity extends BaseActivity
 
     @Inject
     MainPresenter mainPresenter;
+
+    @Inject
+    PreferencesManager preferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
+            checkFirstTimeUser();
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fl_main_frame, HomeFragment.newInstance())
@@ -126,5 +130,13 @@ public class MainActivity extends BaseActivity
     @Override
     protected void inject() {
         WeatherApp.getInstance().plusMainActivityComponent().inject(this);
+    }
+
+    private void checkFirstTimeUser() {
+        if (preferencesManager.getFirstTimeUser()) {
+            long interval = Long.valueOf(preferencesManager.getCurrentUpdateInterval());
+            WeatherJob.scheduleJob(interval);
+            preferencesManager.setFirstTimeUser(true);
+        }
     }
 }

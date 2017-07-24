@@ -24,6 +24,8 @@ public class AppModule {
         return context;
     }
 
+    @Singleton
+    @Provides
     public PreferencesManager providePreferenceManager(Context context) {
         return new PreferencesManager(context);
     }

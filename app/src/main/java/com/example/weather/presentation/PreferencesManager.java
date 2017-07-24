@@ -6,10 +6,9 @@ import android.preference.PreferenceManager;
 
 public class PreferencesManager {
 
-    private final String BACKGROUND_SWITCH = "b_update";
     private final String UPDATE_INTERVAL = "b_interval";
+    private final String FIRST_TIME_USE = "b_first_time_user";
 
-    public static int pereodic = 900000;
     private SharedPreferences sharedPreferences;
 
     public PreferencesManager(Context context) {
@@ -17,6 +16,14 @@ public class PreferencesManager {
     }
 
     public String getCurrentUpdateInterval() {
-        return sharedPreferences.getString(BACKGROUND_SWITCH, "3600000");
+        return sharedPreferences.getString(UPDATE_INTERVAL, "3600000");
+    }
+
+    public boolean getFirstTimeUser() {
+        return sharedPreferences.getBoolean(FIRST_TIME_USE, true);
+    }
+
+    public void setFirstTimeUser(boolean status) {
+        sharedPreferences.edit().putBoolean(FIRST_TIME_USE, status).apply();
     }
 }
