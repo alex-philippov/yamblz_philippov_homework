@@ -5,7 +5,6 @@ import com.example.weather.presentation.di.main_activity_component.aboutapp_comp
 import com.example.weather.presentation.di.main_activity_component.home_component.HomeComponent;
 import com.example.weather.presentation.di.main_activity_component.home_component.HomeModule;
 import com.example.weather.presentation.main.MainActivity;
-import com.example.weather.presentation.main.settings_screen.SettingsFragment;
 
 import dagger.Subcomponent;
 
@@ -13,7 +12,6 @@ import dagger.Subcomponent;
 @MainActivityScope
 public interface MainActivityComponent {
     void inject(MainActivity mainActivity);
-    void inject(SettingsFragment settingsFragment);
 
     HomeComponent plusHomeComponent(HomeModule homeModule);
     AboutAppComponent plusAboutAppComponent(AboutAppModule aboutAppModule);

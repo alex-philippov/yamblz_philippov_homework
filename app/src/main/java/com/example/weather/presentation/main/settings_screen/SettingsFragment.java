@@ -8,15 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.weather.R;
-import com.example.weather.WeatherApp;
-import com.example.weather.presentation.PreferencesManager;
 import com.example.weather.presentation.android_job.WeatherJob;
 import com.yarolegovich.mp.MaterialChoicePreference;
 import com.yarolegovich.mp.MaterialSwitchPreference;
-
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,9 +29,6 @@ public class SettingsFragment extends Fragment {
     @BindView(R.id.updateIntervalPreference)
     MaterialChoicePreference choicePreference;
 
-    @Inject
-    PreferencesManager preferencesManager;
-
     private Unbinder unbinder;
 
     @Nullable
@@ -54,13 +45,12 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        WeatherApp.getInstance().plusMainActivityComponent().inject(this);
         unbinder = ButterKnife.bind(this, view);
         setChoicePreferenceStatus(switchPreference.getValue());
 
         switchPreference.setOnClickListener(v -> {
             if (switchPreference.getValue()) {
-                long interval = Long.valueOf(preferencesManager.getCurrentUpdateInterval());
+                long interval = Long.valueOf(choicePreference.getValue());
                 WeatherJob.scheduleJob(interval);
             } else {
                 WeatherJob.stopJob();

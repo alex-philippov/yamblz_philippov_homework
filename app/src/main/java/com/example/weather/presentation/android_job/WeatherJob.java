@@ -8,7 +8,6 @@ import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.example.weather.WeatherApp;
 import com.example.weather.domain.GetCurrentWeatherInteractor;
-import com.example.weather.presentation.PreferencesManager;
 
 import javax.inject.Inject;
 
@@ -18,9 +17,6 @@ public class WeatherJob extends Job {
 
     @Inject
     GetCurrentWeatherInteractor getCurrentWeatherInteractor;
-
-    @Inject
-    PreferencesManager preferencesManager;
 
     private Result result;
 
