@@ -31,6 +31,7 @@ ext {
     picasso = '2.5.2'
     gson = '2.8.1'
     materialprefs = '1.0.5'
+    places = '11.0.2'
 
     junit = '4.12'
     espresso = '2.2.2'

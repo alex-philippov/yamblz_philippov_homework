@@ -7,6 +7,7 @@ import com.example.weather.cache.PreferenceCacheManager;
 import com.example.weather.data.OpenWeatherProvider;
 import com.example.weather.data.WeatherApi;
 import com.example.weather.data.WeatherProvider;
+import com.example.weather.cache.PreferencesManager;
 
 import javax.inject.Singleton;
 
@@ -26,8 +27,10 @@ public class DataModule {
 
     @Provides
     @Singleton
-    WeatherProvider provideWeatherProvider(WeatherApi weatherApi, CacheManager cacheManager) {
-        return new OpenWeatherProvider(weatherApi, cacheManager);
+    WeatherProvider provideWeatherProvider(WeatherApi weatherApi,
+                                           CacheManager cacheManager,
+                                           PreferencesManager preferencesManager) {
+        return new OpenWeatherProvider(weatherApi, cacheManager, preferencesManager);
     }
 
     @Provides

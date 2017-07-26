@@ -64,6 +64,8 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson"
     //Material Preferences
     implementation "com.yarolegovich:mp:$materialprefs"
+    //Google Places
+    implementation "com.google.android.gms:play-services-places:$places"
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$espresso", {

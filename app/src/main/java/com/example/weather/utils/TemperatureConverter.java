@@ -1,4 +1,4 @@
-package com.example.weather.Utils;
+package com.example.weather.utils;
 
 public class TemperatureConverter {
     public static double kelvinToCelsius(double t) {

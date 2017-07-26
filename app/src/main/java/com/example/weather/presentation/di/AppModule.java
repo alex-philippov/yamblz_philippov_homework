@@ -3,7 +3,7 @@ package com.example.weather.presentation.di;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.example.weather.presentation.PreferencesManager;
+import com.example.weather.cache.PreferencesManager;
 
 import javax.inject.Singleton;
 

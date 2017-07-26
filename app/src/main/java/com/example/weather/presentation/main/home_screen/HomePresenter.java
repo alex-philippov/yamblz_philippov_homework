@@ -34,7 +34,7 @@ public class HomePresenter extends BaseMainPresenter<HomeView> {
     }
 
     private void getWeather() {
-        getCurrentWeatherInteractor.execute("Moscow", detailedWeather -> {
+        getCurrentWeatherInteractor.execute(detailedWeather -> {
             getView().showWeather(HomeViewModel.create(detailedWeather));
             getView().onGetWeather();
         }, throwable -> {
