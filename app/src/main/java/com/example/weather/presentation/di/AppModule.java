@@ -3,6 +3,8 @@ package com.example.weather.presentation.di;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.weather.presentation.PreferenceManager;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -20,5 +22,9 @@ public class AppModule {
     @Singleton
     public Context provideContext() {
         return context;
+    }
+
+    public PreferenceManager providePreferenceManager(Context context) {
+        return new PreferenceManager(context);
     }
 }

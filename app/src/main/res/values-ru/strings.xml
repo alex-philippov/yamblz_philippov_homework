@@ -10,4 +10,13 @@
     <string name="weather">Погода</string>
     <string name="homework_1">Домашняя работа №1</string>
     <string name="main">Главная</string>
+    <string name="minutes_15">15 минут</string>
+    <string name="minutes_30">30 минут</string>
+    <string name="hour_1">1 час</string>
+    <string name="hour_3">3 часа</string>
+    <string name="hour_6">6 часов</string>
+    <string name="hour_12">12 часов</string>
+    <string name="hour_24">24 часа</string>
+    <string name="update_interval">Интервал обновления</string>
+    <string name="error">Ошибка</string>
 </resources>
