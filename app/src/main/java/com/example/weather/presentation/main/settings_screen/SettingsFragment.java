@@ -129,9 +129,9 @@ public class SettingsFragment extends Fragment {
 
     private void setChoicePreferenceStatus(boolean updateSwitchValue) {
         if (updateSwitchValue) {
-            choicePreference.setEnabled(false);
+            choicePreference.setVisibility(View.GONE);
         } else {
-            choicePreference.setEnabled(true);
+            choicePreference.setVisibility(View.VISIBLE);
         }
     }
 }
