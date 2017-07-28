@@ -9,5 +9,4 @@ import dagger.Subcomponent;
 @HomeScope
 public interface HomeComponent {
     void inject(HomeFragment homeFragment);
-    void inject(HomePresenter homePresenter);
 }
