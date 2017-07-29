@@ -36,5 +36,5 @@ ext {
     junit = '4.12'
     mockito = '1.10.19'
     robolectric = '3.3.2'
-    espresso = '2.2.2'
+    espresso = '3.0.0'
 }

@@ -33,12 +33,16 @@ public class HomePresenter extends BaseMainPresenter<HomeView> {
 
     private void getWeather() {
         getCurrentWeatherInteractor.execute(detailedWeather -> {
-            getView().showWeather(HomeViewModel.create(detailedWeather));
-            getView().onGetWeather();
+            if (getView() != null) {
+                getView().showWeather(HomeViewModel.create(detailedWeather));
+                getView().onGetWeather();
+            }
         }, throwable -> {
-            getView().showError(R.string.error);
-            getView().onGetWeather();
-            Log.i(TAG, "onAttach: " + throwable.toString());
+            if (getView() != null) {
+                getView().showError(R.string.error);
+                getView().onGetWeather();
+                Log.i(TAG, "onAttach: " + throwable.toString());
+            }
         });
     }
 
