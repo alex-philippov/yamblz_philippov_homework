@@ -115,7 +115,6 @@ public class SettingsFragment extends Fragment {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(getActivity(), data);
-                place.getId();
                 cityChangeListener.cityChanged(place.getLatLng());
                 Log.d(TAG, "Place: " + place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {

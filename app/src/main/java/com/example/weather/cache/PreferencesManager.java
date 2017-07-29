@@ -1,8 +1,6 @@
 package com.example.weather.cache;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 public class PreferencesManager {
 
@@ -13,8 +11,8 @@ public class PreferencesManager {
 
     private SharedPreferences sharedPreferences;
 
-    public PreferencesManager(Context context) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    public PreferencesManager(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
     }
 
     public String getCurrentUpdateInterval() {

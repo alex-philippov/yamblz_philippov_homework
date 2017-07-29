@@ -1,7 +1,6 @@
 package com.example.weather.presentation.main.home_screen;
 
 
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.example.weather.R;
@@ -32,8 +31,7 @@ public class HomePresenter extends BaseMainPresenter<HomeView> {
         getWeather();
     }
 
-    @VisibleForTesting
-    void getWeather() {
+    private void getWeather() {
         getCurrentWeatherInteractor.execute(detailedWeather -> {
             getView().showWeather(HomeViewModel.create(detailedWeather));
             getView().onGetWeather();

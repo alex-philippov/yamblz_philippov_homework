@@ -1,6 +1,7 @@
 package com.example.weather.presentation.di;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.example.weather.cache.PreferencesManager;
@@ -26,7 +27,7 @@ public class AppModule {
 
     @Singleton
     @Provides
-    public PreferencesManager providePreferenceManager(Context context) {
-        return new PreferencesManager(context);
+    public PreferencesManager providePreferenceManager(SharedPreferences sharedPreferences) {
+        return new PreferencesManager(sharedPreferences);
     }
 }
