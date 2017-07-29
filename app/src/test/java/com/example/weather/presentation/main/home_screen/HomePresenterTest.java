@@ -15,7 +15,7 @@ public class HomePresenterTest {
 
 
     @Mock
-    GetCurrentWeatherInteractor interactor;
+    private GetCurrentWeatherInteractor interactor;
 
     private HomePresenter presenter;
 
