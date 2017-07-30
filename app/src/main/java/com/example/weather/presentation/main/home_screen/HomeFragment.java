@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class HomeFragment extends BaseMainFragment implements HomeView {
+public class HomeFragment extends BaseMainFragment implements HomeView, SwipeRefreshLayout.OnRefreshListener {
     public static final String TAG = "tag_home_fragment";
 
     @BindView(R.id.tv_temperature)
@@ -63,8 +63,7 @@ public class HomeFragment extends BaseMainFragment implements HomeView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-        swipeRefreshLayout.setOnRefreshListener(() ->
-                ((HomePresenter)getPresenter()).refreshweather());
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -109,5 +108,10 @@ public class HomeFragment extends BaseMainFragment implements HomeView {
     @Override
     public void onGetWeather() {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        ((HomePresenter) getPresenter()).refreshweather();
     }
 }

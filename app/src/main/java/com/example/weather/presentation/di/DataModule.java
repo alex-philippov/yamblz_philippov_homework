@@ -1,6 +1,8 @@
 package com.example.weather.presentation.di;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.example.weather.cache.CacheManager;
 import com.example.weather.cache.PreferenceCacheManager;
@@ -23,6 +25,12 @@ public class DataModule {
     @Provides
     CacheManager provideCacheManager(Context context) {
         return new PreferenceCacheManager(context);
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideDefaultSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Provides

@@ -8,6 +8,7 @@ import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.example.weather.WeatherApp;
 import com.example.weather.domain.GetCurrentWeatherInteractor;
+import com.example.weather.domain.GetCurrentWeatherInteractorImpl;
 
 import javax.inject.Inject;
 

@@ -68,7 +68,10 @@ dependencies {
     implementation "com.google.android.gms:play-services-places:$places"
 
     testImplementation "junit:junit:$junit"
+    testImplementation "org.mockito:mockito-core:$mockito"
+    testImplementation "org.robolectric:robolectric:$robolectric"
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espresso"
 }

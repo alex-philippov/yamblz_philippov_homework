@@ -34,5 +34,7 @@ ext {
     places = '11.0.2'
 
     junit = '4.12'
-    espresso = '2.2.2'
+    mockito = '1.10.19'
+    robolectric = '3.3.2'
+    espresso = '3.0.0'
 }
