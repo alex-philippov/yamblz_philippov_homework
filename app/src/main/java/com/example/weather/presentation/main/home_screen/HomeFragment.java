@@ -2,9 +2,7 @@ package com.example.weather.presentation.main.home_screen;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.TextViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +18,35 @@ import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class HomeFragment extends BaseMainFragment implements HomeView {
     public static final String TAG = "tag_home_fragment";
-    private TextView tvTemperature;
-    private TextView tvCity;
-    private TextView tvWeather;
-    private TextView tvWind;
-    private ImageView ivIcon;
-    private SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.tv_temperature)
+    TextView tvTemperature;
+
+    @BindView(R.id.tv_city)
+    TextView tvCity;
+
+    @BindView(R.id.tv_weather)
+    TextView tvWeather;
+
+    @BindView(R.id.tv_wind)
+    TextView tvWind;
+
+    @BindView(R.id.iv_icon)
+    ImageView ivIcon;
+
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject
     HomePresenter homePresenter;
+
+    private Unbinder unbinder;
 
     @Nullable
     @Override
@@ -39,14 +55,14 @@ public class HomeFragment extends BaseMainFragment implements HomeView {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        tvCity = view.findViewById(R.id.tv_city);
-        tvTemperature = view.findViewById(R.id.tv_temperature);
-        tvWeather = view.findViewById(R.id.tv_weather);
-        tvWind = view.findViewById(R.id.tv_wind);
-        ivIcon = view.findViewById(R.id.iv_icon);
-        swipeRefreshLayout = view.findViewById(R.id.swipe_container);
+        unbinder = ButterKnife.bind(this, view);
         swipeRefreshLayout.setOnRefreshListener(() ->
                 ((HomePresenter)getPresenter()).refreshweather());
     }

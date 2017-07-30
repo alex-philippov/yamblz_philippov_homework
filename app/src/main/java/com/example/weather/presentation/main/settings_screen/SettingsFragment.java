@@ -1,56 +1,137 @@
 package com.example.weather.presentation.main.settings_screen;
 
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.weather.R;
-import com.example.weather.WeatherApp;
-import com.example.weather.presentation.PreferenceManager;
-import com.example.weather.presentation.common.BasePresenter;
-import com.example.weather.presentation.main.common.BaseMainFragment;
+import com.example.weather.presentation.android_job.WeatherJob;
+import com.example.weather.utils.OnCityChangeListener;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.yarolegovich.mp.MaterialChoicePreference;
+import com.yarolegovich.mp.MaterialStandardPreference;
+import com.yarolegovich.mp.MaterialSwitchPreference;
 
-import java.util.Set;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-import javax.inject.Inject;
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 
-public class SettingsFragment extends PreferenceFragmentCompat
-        implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class SettingsFragment extends Fragment {
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
-    @Inject
-    PreferenceManager preferenceManager;
 
+    @BindView(R.id.updateSwitchPreference)
+    MaterialSwitchPreference switchPreference;
+
+    @BindView(R.id.updateIntervalPreference)
+    MaterialChoicePreference choicePreference;
+
+    @BindView(R.id.settingsCity)
+    MaterialStandardPreference city;
+
+    private OnCityChangeListener cityChangeListener;
+
+    private Unbinder unbinder;
+    private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    private final String TAG = "SettingsFragment";
+
+    @Nullable
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        addPreferencesFromResource(R.xml.settings);
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        Preference preference = findPreference(s);
-        if (preference instanceof ListPreference) {
-            ListPreference listPreference = (ListPreference) preference;
-            int prefIndex = listPreference.findIndexOfValue(sharedPreferences.getString(s, ""));
-            if (prefIndex >= 0) {
-                int pereodic = Integer.parseInt(listPreference.getEntryValues()[prefIndex].toString());
-                preference.setSummary(listPreference.getEntries()[prefIndex]);
-                preferenceManager.setPereodic(pereodic);
-            }
-        } else {
-            preference.setSummary(sharedPreferences.getString(s, ""));
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnCityChangeListener) {
+            cityChangeListener = (OnCityChangeListener) context;
         }
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        cityChangeListener = null;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        unbinder = ButterKnife.bind(this, view);
+        setChoicePreferenceStatus(switchPreference.getValue());
+
+        switchPreference.setOnClickListener(v -> {
+            if (switchPreference.getValue()) {
+                long interval = Long.valueOf(choicePreference.getValue());
+                WeatherJob.scheduleJob(interval);
+            } else {
+                WeatherJob.stopJob();
+            }
+            setChoicePreferenceStatus(switchPreference.getValue());
+        });
+
+        city.setOnClickListener(v -> {
+            AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
+                    .build();
+            try {
+                Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                        .setFilter(typeFilter)
+                        .build(getActivity());
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+            } catch (GooglePlayServicesRepairableException e) {
+                Log.d(TAG, e.getMessage());
+            } catch (GooglePlayServicesNotAvailableException e) {
+                Log.d(TAG, e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(getActivity(), data);
+                place.getId();
+                cityChangeListener.cityChanged(place.getLatLng());
+                Log.d(TAG, "Place: " + place.getName());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(getActivity(), data);
+                Log.d(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                Log.d(TAG, "Place request canceled");
+            }
+        }
+    }
+
+    private void setChoicePreferenceStatus(boolean updateSwitchValue) {
+        if (updateSwitchValue) {
+            choicePreference.setVisibility(View.GONE);
+        } else {
+            choicePreference.setVisibility(View.VISIBLE);
+        }
     }
 }

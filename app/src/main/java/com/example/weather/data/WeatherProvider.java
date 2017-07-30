@@ -6,5 +6,5 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public interface WeatherProvider {
-    Observable<DetailedWeather> getWeather(String city, String key);
+    Observable<DetailedWeather> getWeather(String key);
 }

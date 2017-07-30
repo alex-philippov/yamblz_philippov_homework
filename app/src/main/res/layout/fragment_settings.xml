@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <TextView
-        android:text="@string/settings"
-        android:gravity="center"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.yarolegovich.mp.MaterialPreferenceCategory
+        android:id="@+id/backgroundCategory"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <com.yarolegovich.mp.MaterialSwitchPreference
+            android:id="@+id/updateSwitchPreference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_key="b_update"
+            app:mp_default_value="true"
+            app:mp_title="@string/settings_update_switch"/>
+
+        <com.yarolegovich.mp.MaterialChoicePreference
+            android:id="@+id/updateIntervalPreference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_key="b_interval"
+            app:mp_default_value="3600000"
+            app:mp_title="@string/settings_update_interval"
+            app:mp_entry_descriptions="@array/intervals"
+            app:mp_entry_values="@array/intervals_values"
+            app:mp_show_value="onRight"/>
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+    <com.yarolegovich.mp.MaterialPreferenceCategory
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:id="@+id/settingsCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_title="@string/settings_select_city"/>
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+</LinearLayout>

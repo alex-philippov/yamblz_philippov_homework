@@ -33,7 +33,6 @@ public class WeatherApp extends Application {
     public void onCreate() {
         super.onCreate();
         JobManager.create(this).addJobCreator(new WeatherJobCreator());
-        WeatherJob.scheduleJob();
         instance = this;
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(instance))

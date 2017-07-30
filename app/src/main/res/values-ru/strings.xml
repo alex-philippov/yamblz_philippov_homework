@@ -5,6 +5,11 @@
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
 
+    <!--Settings strings -->
+    <string name="settings_update_switch">Обновление в фоне</string>
+    <string name="settings_update_interval">Интервал</string>
+    <string name="settings_select_city">Выберите город</string>
+
     <string name="about_app">О приложении</string>
     <string name="settings">Настройки</string>
     <string name="weather">Погода</string>

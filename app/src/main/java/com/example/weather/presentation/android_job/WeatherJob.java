@@ -1,46 +1,59 @@
 package com.example.weather.presentation.android_job;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.evernote.android.job.Job;
+import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.example.weather.WeatherApp;
 import com.example.weather.domain.GetCurrentWeatherInteractor;
-import com.example.weather.domain.entities.DetailedWeather;
-import com.example.weather.presentation.PreferenceManager;
 
 import javax.inject.Inject;
 
-import io.reactivex.functions.Consumer;
-
 public class WeatherJob extends Job {
-    public static final String TAG = "job_weather_tag";
+
+    static final String TAG = "job_weather_tag";
 
     @Inject
     GetCurrentWeatherInteractor getCurrentWeatherInteractor;
 
+    private Result result;
+
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
+        inject();
         Log.i(TAG, "onRunJob: ");
-        getCurrentWeatherInteractor.execute("Moscow", detailedWeather -> {
+        getCurrentWeatherInteractor.execute(detailedWeather -> {
             Log.i(TAG, "onRunJob: get weather");
+            result = Result.SUCCESS;
         }, throwable -> {
-            Log.i(TAG, "onRunJob: error");
+            Log.i(TAG, "onRunJob: error" + throwable.getMessage());
+            result = Result.RESCHEDULE;
         });
-        return Result.SUCCESS;
+        return result;
     }
 
-    public static void scheduleJob() {
+    public static void scheduleJob(long interval) {
         Log.i(TAG, "scheduleJob: ");
 
         new JobRequest.Builder(WeatherJob.TAG)
                 .setPersisted(true)
-                .setPeriodic(PreferenceManager.pereodic)
+                .setUpdateCurrent(true)
+                .setPeriodic(interval)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .build()
                 .schedule();
+    }
+
+    public static void stopJob() {
+        Log.d(TAG, "stopJob");
+
+        JobManager.instance().cancelAllForTag(TAG);
+    }
+
+    private void inject() {
+        WeatherApp.getInstance().getAppComponent().inject(this);
     }
 }

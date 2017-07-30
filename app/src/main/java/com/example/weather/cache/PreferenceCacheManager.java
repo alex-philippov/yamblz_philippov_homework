@@ -2,17 +2,16 @@ package com.example.weather.cache;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.example.weather.WeatherApp;
 import com.example.weather.domain.entities.DetailedWeather;
 import com.google.gson.Gson;
 
 public class PreferenceCacheManager implements CacheManager {
+
     public static final String TAG = "tag_preference_cache";
     private Context context;
     private final String KEY = "last_weather_pref_key";
-
 
     public PreferenceCacheManager(Context context) {
         this.context = context;

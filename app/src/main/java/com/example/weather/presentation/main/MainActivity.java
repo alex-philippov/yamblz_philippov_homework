@@ -8,24 +8,31 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.weather.R;
 import com.example.weather.WeatherApp;
+import com.example.weather.cache.PreferencesManager;
+import com.example.weather.presentation.android_job.WeatherJob;
 import com.example.weather.presentation.common.BaseActivity;
-import com.example.weather.presentation.common.BasePresenter;
 import com.example.weather.presentation.main.aboutapp_screen.AboutAppFragment;
 import com.example.weather.presentation.main.home_screen.HomeFragment;
 import com.example.weather.presentation.main.settings_screen.SettingsFragment;
+import com.example.weather.utils.OnCityChangeListener;
+import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity
-        implements MainRouter, MainView, NavigationView.OnNavigationItemSelectedListener {
+        implements MainRouter, MainView, NavigationView.OnNavigationItemSelectedListener, OnCityChangeListener {
 
     @Inject
     MainPresenter mainPresenter;
+
+    @Inject
+    PreferencesManager preferencesManager;
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +47,11 @@ public class MainActivity extends BaseActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
+            checkFirstTimeUser();
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fl_main_frame, HomeFragment.newInstance())
@@ -86,26 +94,17 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void showHomeScreen() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fl_main_frame, HomeFragment.newInstance())
-                .commit();
+        replaceFragment(R.id.fl_main_frame, HomeFragment.newInstance(), false);
     }
 
     @Override
     public void showSettingsScreen() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fl_main_frame, SettingsFragment.newInstance())
-                .commit();
+        replaceFragment(R.id.fl_main_frame, SettingsFragment.newInstance(), false);
     }
 
     @Override
     public void showAboutApplicationScreen() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fl_main_frame, AboutAppFragment.newInstance())
-                .commit();
+        replaceFragment(R.id.fl_main_frame, AboutAppFragment.newInstance(), false);
     }
 
     @Override
@@ -126,5 +125,21 @@ public class MainActivity extends BaseActivity
     @Override
     protected void inject() {
         WeatherApp.getInstance().plusMainActivityComponent().inject(this);
+    }
+
+    @Override
+    public void cityChanged(LatLng latLng) {
+        preferencesManager.setLatitude(latLng.latitude);
+        preferencesManager.setLongitude(latLng.longitude);
+        showHomeScreen();
+        navigationView.setCheckedItem(R.id.nav_home);
+    }
+
+    private void checkFirstTimeUser() {
+        if (preferencesManager.getFirstTimeUser()) {
+            long interval = Long.valueOf(preferencesManager.getCurrentUpdateInterval());
+            WeatherJob.scheduleJob(interval);
+            preferencesManager.setFirstTimeUser(false);
+        }
     }
 }

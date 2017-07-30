@@ -1,7 +1,7 @@
 package com.example.weather.presentation.main.home_screen;
 
 
-import com.example.weather.Utils.TemperatureConverter;
+import com.example.weather.utils.TemperatureConverter;
 import com.example.weather.domain.entities.DetailedWeather;
 
 public class HomeViewModel {
@@ -15,7 +15,7 @@ public class HomeViewModel {
                 detailedWeather.getName());
     }
 
-    private HomeViewModel(Double temperature, Double wind, String main, Integer pressure, String iconId, String city) {
+    private HomeViewModel(Double temperature, Double wind, String main, Double pressure, String iconId, String city) {
         this.temperature =  (TemperatureConverter.kelvinToCelsius(temperature) > 0 ? "+" : "") +
             String.valueOf(TemperatureConverter.kelvinToCelsius(temperature)) + "°";
         this.wind = "Wind " + String.valueOf(wind) + " m/s";

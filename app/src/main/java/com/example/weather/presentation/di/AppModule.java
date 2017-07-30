@@ -3,7 +3,7 @@ package com.example.weather.presentation.di;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.example.weather.presentation.PreferenceManager;
+import com.example.weather.cache.PreferencesManager;
 
 import javax.inject.Singleton;
 
@@ -24,7 +24,9 @@ public class AppModule {
         return context;
     }
 
-    public PreferenceManager providePreferenceManager(Context context) {
-        return new PreferenceManager(context);
+    @Singleton
+    @Provides
+    public PreferencesManager providePreferenceManager(Context context) {
+        return new PreferencesManager(context);
     }
 }
